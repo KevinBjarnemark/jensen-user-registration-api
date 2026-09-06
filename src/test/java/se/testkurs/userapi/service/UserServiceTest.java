@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -41,13 +42,24 @@ class UserServiceTest {
         //Act
         User result = userService.registerUser("anna", "anna@test.com", "password123");
 
-        //Assert
+        //Assert: returvärdet från UserService
         assertEquals("anna", result.getUsername());
         assertEquals("anna@test.com", result.getEmail());
         assertEquals(1L, result.getId());
 
+        // Assert: kontrollera att dubblettkontroll gjordes
         verify(userRepository).findByEmail("anna@test.com");
-        verify(userRepository).save(any(User.class));
+
+        // Assert: fånga och kontrollera User-objektet som skickades till save(...)
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+
+        verify(userRepository).save(userCaptor.capture());
+
+        User userSentToRepository = userCaptor.getValue();
+
+        assertEquals("anna", userSentToRepository.getUsername());
+        assertEquals("anna@test.com", userSentToRepository.getEmail());
+        assertEquals("password123", userSentToRepository.getPassword());
     }
 
     @Test
