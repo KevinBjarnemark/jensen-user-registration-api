@@ -1,0 +1,14 @@
+name: Pull request check
+
+on: pull_request
+
+jobs:
+  Pull-request-check:
+    name: Check pull request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Announce pull request
+        run: echo "Pull Request detected!"
