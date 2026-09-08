@@ -11,3 +11,6 @@ jobs:
 
       - name: Print text
         run: echo "This text is printed in GitHub actions."
+      
+      - name: Print date and time
+        run: echo "The date and time is $(date +'%Y-%m-%d %H:%M:%S')"
