@@ -1,0 +1,13 @@
+name: Print text in GitHub Actions
+
+on: push
+
+jobs:
+  print-text:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Print text
+        run: echo "This text is printed in GitHub actions."
